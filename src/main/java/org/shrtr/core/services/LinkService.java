@@ -1,28 +1,32 @@
+
 package org.shrtr.core.services;
 
 import lombok.RequiredArgsConstructor;
-import org.shrtr.core.controllers.AuthenticationController;
+import lombok.extern.slf4j.Slf4j;
 import org.shrtr.core.domain.entities.Link;
+import org.shrtr.core.domain.entities.LinkMetric;
 import org.shrtr.core.domain.entities.User;
+import org.shrtr.core.domain.repositories.LinkMetricsRepository;
 import org.shrtr.core.domain.repositories.LinksRepository;
 import org.shrtr.core.domain.repositories.UsersRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.ValidationException;
-import java.security.Principal;
 import java.security.SecureRandom;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LinkService {
+  private final UsersRepository usersRepository;
   private final LinksRepository linksRepository;
+  private final LinkMetricsRepository linkMetricsRepository;
+
 
   @Transactional
   public Link create(String targetUrl, User user) {
@@ -36,10 +40,48 @@ public class LinkService {
     linksRepository.save(link);
     return link;
   }
+  public List<LinkMetric> findLinkMetrics(Link link, LocalDate from, LocalDate to) {
+    return linkMetricsRepository.findAllByDateBetweenAndLink(from, to, link);
+  }
+  public void resetCounter(String shortened){
+    Optional<Link> linkToReset = linksRepository.findByShortened(shortened);
+    if(linkToReset.isPresent()){
+      Long millisecondsBetweenDates = Duration.between(linkToReset.get().getUpdatedOn(), LocalDateTime.now()).toMillis();
+      Long minutesBetweenDates = TimeUnit.MILLISECONDS.toMinutes(millisecondsBetweenDates);
+      if(minutesBetweenDates > 10){
+        linkToReset.get().setCounter(0);
+        linksRepository.save(linkToReset.get());
+      }
+    }
+  }
+  public boolean verifyRateLimit(LocalDateTime from, LocalDateTime to, User user) {
+    List<Link> redirectsIn10Minutes = linksRepository.findAllByUpdatedOnBetweenAndOwner(from, to, user);
+    Integer totalRedirects = redirectsIn10Minutes.stream().mapToInt(i -> i.getCounter()).sum();
+    return totalRedirects < user.getMax_requests();
+  }
 
   @Transactional
   public Optional<Link> findForRedirect(String shortened) {
-    return linksRepository.findByShortened(shortened);
+    Optional<Link> byShortened = linksRepository.findByShortened(shortened);
+    if (byShortened.isPresent()) {
+      LocalDate date = LocalDate.now();
+      Link link = byShortened.get();
+      Optional<LinkMetric> byLinkAndDate = linkMetricsRepository.findByLinkAndDate(link, date);
+      if (byLinkAndDate.isPresent()) {
+        LinkMetric linkMetric = byLinkAndDate.get();
+        linkMetric.setCount(linkMetric.getCount() + 1);
+        log.info("Count of {} is {}", link.getShortened(), linkMetric.getCount());
+        linkMetricsRepository.save(linkMetric);
+      } else {
+        LinkMetric linkMetric = new LinkMetric();
+        linkMetric.setLink(link);
+        linkMetric.setDate(date);
+        linkMetric.setCount(1);
+        log.info("Count of {} is {}", link.getShortened(), linkMetric.getCount());
+        linkMetricsRepository.save(linkMetric);
+      }
+    }
+    return byShortened;
   }
 
   @Transactional

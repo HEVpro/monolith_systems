@@ -31,6 +31,8 @@ public class UserService {
     user.setPassword(passwordEncoder.encode(request.getPassword()));
     user.setFirstName(request.getFirstName());
     user.setLastName(request.getLastName());
+    user.setMax_requests(5);
+    user.setMax_requests_time_window_ms(600000);
 
     usersRepository.save(user);
     return user;

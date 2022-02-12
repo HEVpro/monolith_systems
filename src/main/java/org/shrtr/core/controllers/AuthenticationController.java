@@ -77,6 +77,10 @@ public class AuthenticationController {
     private String password;
     @NotBlank
     private String rePassword;
+//    @NotBlank
+//    private Long rePassword;
+//    @NotBlank
+//    private Long rePassword;
 
   }
 
