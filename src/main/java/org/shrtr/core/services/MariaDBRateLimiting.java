@@ -22,17 +22,15 @@ public class MariaDBRateLimiting implements RateLimiting{
     }
 
     @Override
-    public Void incrementCounter(Link link) {
+    public void incrementCounter(Link link) {
         link.setCounter(link.getCounter() + 1);
         link.setUpdatedOn(LocalDateTime.now());
         linksRepository.save(link);
-        return null;
     }
 
     @Override
-    public Void resetCounter(String shortened) {
+    public void resetCounter(String shortened) {
         linkService.resetCounter(shortened);
-        return null;
     }
 
 }

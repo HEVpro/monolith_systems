@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 
 public interface RateLimiting {
     Boolean hasNotExceedRateLimiting(User user, LocalDateTime from, LocalDateTime to);
-    Void incrementCounter(Link link);
-    Void resetCounter(String shortened);
+    void incrementCounter(Link link);
+    void resetCounter(String shortened);
 }

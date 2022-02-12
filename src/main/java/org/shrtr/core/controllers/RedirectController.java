@@ -3,7 +3,6 @@ package org.shrtr.core.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.shrtr.core.domain.entities.User;
-import org.shrtr.core.domain.repositories.LinksRepository;
 import org.shrtr.core.services.LinkService;
 import org.shrtr.core.services.RateLimiting;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +19,6 @@ import java.time.LocalDateTime;
 public class RedirectController {
 
     private final LinkService linkService;
-    private final LinksRepository linksRepository;
     private final RateLimiting rateLimiting;
 
     @GetMapping("/{shortened}")

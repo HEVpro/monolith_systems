@@ -8,7 +8,6 @@ import org.shrtr.core.domain.entities.LinkMetric;
 import org.shrtr.core.domain.entities.User;
 import org.shrtr.core.domain.repositories.LinkMetricsRepository;
 import org.shrtr.core.domain.repositories.LinksRepository;
-import org.shrtr.core.domain.repositories.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class LinkService {
-  private final UsersRepository usersRepository;
   private final LinksRepository linksRepository;
   private final LinkMetricsRepository linkMetricsRepository;
 
@@ -46,8 +44,8 @@ public class LinkService {
   public void resetCounter(String shortened){
     Optional<Link> linkToReset = linksRepository.findByShortened(shortened);
     if(linkToReset.isPresent()){
-      Long millisecondsBetweenDates = Duration.between(linkToReset.get().getUpdatedOn(), LocalDateTime.now()).toMillis();
-      Long minutesBetweenDates = TimeUnit.MILLISECONDS.toMinutes(millisecondsBetweenDates);
+      long millisecondsBetweenDates = Duration.between(linkToReset.get().getUpdatedOn(), LocalDateTime.now()).toMillis();
+      long minutesBetweenDates = TimeUnit.MILLISECONDS.toMinutes(millisecondsBetweenDates);
       if(minutesBetweenDates > 10){
         linkToReset.get().setCounter(0);
         linksRepository.save(linkToReset.get());
@@ -56,7 +54,7 @@ public class LinkService {
   }
   public boolean verifyRateLimit(LocalDateTime from, LocalDateTime to, User user) {
     List<Link> redirectsIn10Minutes = linksRepository.findAllByUpdatedOnBetweenAndOwner(from, to, user);
-    Integer totalRedirects = redirectsIn10Minutes.stream().mapToInt(i -> i.getCounter()).sum();
+    int totalRedirects = redirectsIn10Minutes.stream().mapToInt(Link::getCounter).sum();
     return totalRedirects < user.getMax_requests();
   }
 
