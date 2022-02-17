@@ -27,4 +27,4 @@ jobs:
         with:
           context: "{{defaultContext}}:monolith"
           push: true
-          tags: hacheev/monolith_systems_monolith:latest
+          tags: hacheev/monolith_systems_monolith:latest, hacheev/monolith_systems_monolith:${{ github.sha }}
