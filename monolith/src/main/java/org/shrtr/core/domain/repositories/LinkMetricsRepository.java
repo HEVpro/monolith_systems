@@ -2,7 +2,6 @@ package org.shrtr.core.domain.repositories;
 
 import org.shrtr.core.domain.entities.Link;
 import org.shrtr.core.domain.entities.LinkMetric;
-import org.shrtr.core.domain.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

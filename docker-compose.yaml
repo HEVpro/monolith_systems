@@ -3,6 +3,7 @@ version: '3'
 services:
   mariadb:
     image: mariadb:10.3
+    container_name: monolith-mariadb
     ports:
       - '3306:3306'
     volumes:
@@ -12,3 +13,15 @@ services:
       MYSQL_DATABASE: 'shrtdb'
       MYSQL_USER: 'admin'
       MYSQL_PASSWORD: 'supersecret'
+  monolith:
+    image: monolith-systems:latest
+    container_name: monolith
+    build:
+      context: monolith
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mariadb://mariadb:3306/shrtdb"
+    depends_on:
+      - mariadb
