@@ -25,6 +25,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: monolith
+          context: monolith_systems_monolith
           push: true
           tags: hacheev/monolith_systems_monolith:latest
