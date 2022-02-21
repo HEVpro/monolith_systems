@@ -1,14 +1,14 @@
 # DOCKER: JAVA APP
 ## Create docker compose
-```sh
+```yaml
     monolith:
-        image: monolith-systems:latest // the image name to push docker
-        container_name: monolith // to see better the name on  docker container ps command
-        build:   // necessary if it is an app or requires a build the own app properly
+        image: monolith-systems:latest # the image name to push docker
+        container_name: monolith # to see better the name on  docker container ps command
+        build:   # necessary if it is an app or requires a build the own app properly
         context: monolith
-        dockerfile: Dockerfile  // our dockerFile configuration inside the app folder
+        dockerfile: Dockerfile  # our dockerFile configuration inside the app folder
         ports:
-            - '8080:8080'  // expose the ports
+            - '8080:8080'  # expose the ports
         environment:
             SPRING_DATASOURCE_URL: 'jdbc:mariadb://mariadb:3306/shrtdb'
         depends_on:
@@ -19,17 +19,17 @@
     docker-compose up --build <image_name>
 ```
 2. Create the Dockerfile as entrypoint on the project folder
-```sh
-    FROM openjdk:17-slim //version of java
-    WORKDIR /app  //create our docker system file and named app
-    COPY mvnw mvnw   // copy from host project to docker project the folder
-    COPY .mvn .mvn
-    COPY mvnw mvnw
-    COPY pom.xml pom.xml
-    COPY src src
-    RUN ./mvnw package -DskipTests   // run commands
-    EXPOSE 8080     // expose the port
-    CMD ["java", "-jar", "/app/target/shrtr-0.0.1-SNAPSHOT.jar"]  // the terminal command to up the app
+```dockerfile
+FROM openjdk:17-slim #version of java
+WORKDIR /app  #create our docker system file and named app
+COPY mvnw mvnw   # copy from host project to docker project the folder
+COPY .mvn .mvn
+COPY mvnw mvnw
+COPY pom.xml pom.xml
+COPY src src
+RUN ./mvnw package -DskipTests   # run commands
+EXPOSE 8080     # expose the port
+CMD ["java", "-jar", "/app/target/shrtr-0.0.1-SNAPSHOT.jar"]  # the terminal command to up the app
 ```
 ### TRICK
 If we need to reorganize the folder in java app, we have to delete the mvn folder and target (in intellij).
@@ -47,26 +47,26 @@ Delete the folder target, and then, build with the IDE project.
         .github/workflows
         ```
     2. Add <name_process>.yaml:
-        ```sh
-        name: ci  // name of the process
+        ```yaml
+        name: ci  # name of the process
 
-        on:   // when it happens
+        on:   # when it happens
           push:
             branches:
               - 'main'
         
-        jobs:  //works to do after on
+        jobs:  #works to do after on
           docker:
             runs-on: ubuntu-latest
             steps:
               -
-                name: Set up QEMU  // add QEMU docker
+                name: Set up QEMU  # add QEMU docker
                 uses: docker/setup-qemu-action@v1
               -
-                name: Set up Docker Buildx   // build docker
+                name: Set up Docker Buildx   # build docker
                 uses: docker/setup-buildx-action@v1
               -
-                name: Login to DockerHub  // login in docker hub
+                name: Login to DockerHub  # login in docker hub
                 uses: docker/login-action@v1
                 with:   //add secrets on github repository
                   username: ${{ secrets.DOCKERHUB_USERNAME }}

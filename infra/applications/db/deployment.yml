@@ -1,11 +1,21 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: mariadb-deployment
   labels:
     component: mariadb-deployment
 spec:
   replicas: 1
+  serviceName: mariadb-deployment
+  volumeClaimTemplates:
+    - metadata:
+        name: mariadb-volume
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
   selector:
     matchLabels:
       component: mariadb-deployment
@@ -29,3 +39,6 @@ spec:
               value: 'admin'
             - name: MYSQL_PASSWORD
               value: 'supersecret'
+          volumeMounts:
+            - name: mariadb-volume
+              mountPath: /var/lib/mysql

@@ -5,7 +5,7 @@ metadata:
     component: monolith-deployment # name of component
   name: monolith-deployment # name of component
 spec:  # specifications of the deployment
-  replicas: 3  #how many pods I want
+  replicas: 1  #how many pods I want
   selector:  # how to select the deployment component
     matchLabels:
       component: monolith-deployment  # name of component
@@ -25,27 +25,9 @@ spec:  # specifications of the deployment
             - name: SPRING_DATASOURCE_URL
               value: 'jdbc:mariadb://mariadb-service.default.svc.cluster.local:3306/shrtdb'
           image: hacheev/monolith_systems_monolith:latest
-#          livenessProbe: # prove of the server is alife
-#            failureThreshold: 3
-#            initialDelaySeconds: 20
-#            periodSeconds: 20
-#            successThreshold: 1
-#            tcpSocket:
-#              port: 8080
-#            timeoutSeconds: 5
           ports:
             - containerPort: 8080
               protocol: TCP
-#              name: 8080tcp
-#              protocol: TCP
-#          readinessProbe:
-#            failureThreshold: 14
-#            initialDelaySeconds: 40
-#            periodSeconds: 10
-#            successThreshold: 1
-#            tcpSocket:
-#              port: 8080
-#            timeoutSeconds: 5
           resources:
             limits:
               memory: 500Mi
