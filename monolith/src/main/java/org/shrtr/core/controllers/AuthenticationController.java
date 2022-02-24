@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.apache.kafka.clients.producer.Producer;
+
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
@@ -29,6 +31,7 @@ public class AuthenticationController {
   private final AuthenticationManager authenticationManager;
   private final JwtTokenUtil jwtTokenUtil;
   private final UserService userService;
+  private final Producer<String, String> kafkaProducer;
 
   @PostMapping("login")
   public ResponseEntity<User> login(@RequestBody @Valid AuthRequest request) {
@@ -48,7 +51,8 @@ public class AuthenticationController {
 
   @PostMapping("register")
   public User register(@RequestBody @Valid CreateUserRequest request) {
-    return userService.create(request);
+    User user = userService.create(request);
+    return user;
   }
 
   @Data

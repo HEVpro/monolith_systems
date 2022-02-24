@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  events-consumer-service:
+      image: events-consumer-service:latest
+      container_name: events-consumer-service
+      build:
+        context: events_consumer_service
+        dockerfile: ./compose/Dockerfile
+      ports:
+        - "8001:5000"
+      depends_on:
+        - events-consumer-db
+      environment:
+        - MONGO_HOST=mongodb://events-consumer-db
+  events-consumer-db:
+      image: mongo
+      container_name: events-consumer-db
+      environment:
+        - PUID=1000
+        - PGID=1000
+      volumes:
+        - ./data/events_consumer_service:/data/db
+      ports:
+        - "27017:27017"
+      restart: always

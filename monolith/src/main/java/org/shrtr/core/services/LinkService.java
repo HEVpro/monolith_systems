@@ -8,6 +8,7 @@ import org.shrtr.core.domain.entities.LinkMetric;
 import org.shrtr.core.domain.entities.User;
 import org.shrtr.core.domain.repositories.LinkMetricsRepository;
 import org.shrtr.core.domain.repositories.LinksRepository;
+import org.shrtr.core.events.EventService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,7 +24,8 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class LinkService {
   private final LinksRepository linksRepository;
-  private final LinkMetricsRepository linkMetricsRepository;
+    private final LinkMetricsRepository linkMetricsRepository;
+    private final EventService eventService;
 
 
   @Transactional
@@ -35,7 +37,8 @@ public class LinkService {
     link.setOwner(user);
     link.setCounter(0);
     link.setShortened(randomStringAlphaNumeric(8));
-    linksRepository.save(link);
+      linksRepository.save(link);
+      eventService.entityCreated(user);
     return link;
   }
   public List<LinkMetric> findLinkMetrics(Link link, LocalDate from, LocalDate to) {

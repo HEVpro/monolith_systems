@@ -6,6 +6,9 @@ import org.shrtr.core.domain.entities.User;
 import org.shrtr.core.domain.repositories.UsersRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.shrtr.core.events.EventService;
 
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
@@ -15,6 +18,8 @@ import javax.validation.ValidationException;
 public class UserService {
   private final UsersRepository usersRepository;
   private final PasswordEncoder passwordEncoder;
+  private final EventService eventService;
+
 
   @Transactional
   public User create(AuthenticationController.CreateUserRequest request) {
@@ -34,6 +39,7 @@ public class UserService {
     user.setMax_requests_time_window_ms(600000);
 
     usersRepository.save(user);
+//    eventService.entityCreated(user);
     return user;
   }
 }
