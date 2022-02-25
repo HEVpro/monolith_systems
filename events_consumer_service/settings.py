@@ -1,8 +1,7 @@
 import os
 
-KAFKA_TOPIC_USERS = "User"
-KAFKA_TOPIC_LINKS = "Link"
-KAFKA_TOPIC_LINKS_METRIC = "LinkMetric"
+# KAFKA
+KAFKA_TOPICS = os.environ.get('KAFKA_TOPICS', "User,Link,LinkMetric")
 KAFKA_SERVER = "kafka:19092"
 
 # DB

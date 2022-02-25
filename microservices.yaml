@@ -6,13 +6,14 @@ services:
       container_name: events-consumer-service
       build:
         context: events_consumer_service
-        dockerfile: ./compose/Dockerfile
       ports:
         - "8001:5000"
       depends_on:
         - events-consumer-db
       environment:
-        - MONGO_HOST=mongodb://events-consumer-db
+        MONGO_HOST: mongodb://events-consumer-db
+        KAFKA_TOPICS: User,Link,LinkMetric
+        KAFKA_SERVER: kafka:19092
   events-consumer-db:
       image: mongo
       container_name: events-consumer-db

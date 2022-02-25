@@ -1,5 +1,6 @@
 package org.shrtr.core.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class User extends BaseEntity implements UserDetails {
 
   private boolean enabled = true;
   private String username;
+  @JsonIgnore
   private String password;
   private String firstName;
   private String lastName;
