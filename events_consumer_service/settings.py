@@ -2,6 +2,7 @@ import os
 
 KAFKA_TOPIC_USERS = "User"
 KAFKA_TOPIC_LINKS = "Link"
+KAFKA_TOPIC_LINKS_METRIC = "LinkMetric"
 KAFKA_SERVER = "kafka:19092"
 
 # DB

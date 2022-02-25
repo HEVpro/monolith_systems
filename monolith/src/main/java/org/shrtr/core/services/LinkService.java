@@ -38,7 +38,7 @@ public class LinkService {
     link.setCounter(0);
     link.setShortened(randomStringAlphaNumeric(8));
       linksRepository.save(link);
-      eventService.entityCreated(user);
+      eventService.entityCreated(link);
     return link;
   }
   public List<LinkMetric> findLinkMetrics(Link link, LocalDate from, LocalDate to) {

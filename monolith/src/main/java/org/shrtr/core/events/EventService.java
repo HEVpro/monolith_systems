@@ -27,20 +27,12 @@ public class EventService {
     private final Admin admin;
     private final ObjectMapper objectMapper;
 
-    private static final List<String> entityTopics = List.of(User.class, Link.class, LinkMetric.class)
+    private static final List<String> topics = List.of(User.class, Link.class, LinkMetric.class)
             .stream()
-            .flatMap(clazz -> {
-                return List.of("-created", "-updated", "-deleted")
-                        .stream()
-                        .map(tail -> clazz.getSimpleName() + tail);
-            }).collect(Collectors.toList());
-    private static final List<String> businessTopics = List.of("user-registered");
+            .map(Class::getSimpleName).collect(Collectors.toList());
 
     @PostConstruct
     public void init() throws ExecutionException, InterruptedException {
-        List<String> topics = new ArrayList<>();
-        topics.addAll(entityTopics);
-        topics.addAll(businessTopics);
         ListTopicsResult listTopicsResult = admin.listTopics();
         Set<String> strings = listTopicsResult.names().get();
         topics.forEach(topic -> {
