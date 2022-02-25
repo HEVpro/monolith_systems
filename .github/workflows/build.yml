@@ -22,13 +22,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push
+        name: Build and push monolith
         uses: docker/build-push-action@v2
         with:
           context: "{{defaultContext}}:monolith"
           push: true
           tags: hacheev/monolith_systems_monolith:latest, hacheev/monolith_systems_monolith:${{ github.sha }}
-      - name: Build and push
+      - name: Build and push event-consumer-service
         uses: docker/build-push-action@v2
         with:
           context: "{{defaultContext}}:events_consumer_service/compose"

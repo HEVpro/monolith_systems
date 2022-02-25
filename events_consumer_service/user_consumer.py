@@ -13,9 +13,5 @@ consumer = KafkaConsumer(
 )
 
 
-def eventsManager(data):
-    database.save_log(data)
-
-
 for inf in consumer:
-    eventsManager(inf)
+    database.save_log(inf)
