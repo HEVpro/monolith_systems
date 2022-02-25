@@ -31,7 +31,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: "{{defaultContext}}:events_consumer_service"
+          context: "{{defaultContext}}:events_consumer_service/compose"
           push: true
           tags: hacheev/events-consumer-service:latest, hacheev/events-consumer-service:${{ github.sha }}
 
