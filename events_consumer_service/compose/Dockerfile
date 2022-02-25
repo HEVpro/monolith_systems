@@ -10,7 +10,6 @@ COPY db db
 COPY settings.py settings.py
 COPY link_consumer.py link_consumer.py
 COPY user_consumer.py user_consumer.py
-COPY link_metric_consumer.py link_metric_consumer.py
 
 RUN pip3 install -r requirements.txt
 
