@@ -28,3 +28,10 @@ jobs:
           context: "{{defaultContext}}:monolith"
           push: true
           tags: hacheev/monolith_systems_monolith:latest, hacheev/monolith_systems_monolith:${{ github.sha }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: "{{defaultContext}}:events_consumer_service"
+          push: true
+          tags: hacheev/events-consumer-service:latest, hacheev/events-consumer-service:${{ github.sha }}
+
