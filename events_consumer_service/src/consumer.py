@@ -10,8 +10,7 @@ consumer = KafkaConsumer(
     bootstrap_servers=f'{settings.KAFKA_SERVER}:{settings.KAFKA_PORT}',
     group_id='reporting-consumer',
     # to deserialize kafka.producer.object into dict
-    value_deserializer=lambda m: json.loads(m.decode('utf-8')),
-    consumer_timeout_ms=3000
+    value_deserializer=lambda m: json.loads(m.decode('utf-8'))
 )
 
 for inf in consumer:
