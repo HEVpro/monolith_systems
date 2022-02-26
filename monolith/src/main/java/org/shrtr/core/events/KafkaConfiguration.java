@@ -16,6 +16,8 @@ public class KafkaConfiguration {
     public Admin kafkaAdmin() {
         Properties props = new Properties();
         props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(AdminClientConfig.RETRIES_CONFIG, "3");
+        props.put(AdminClientConfig.RETRY_BACKOFF_MS_CONFIG, "2500");
         Admin admin = Admin.create(props);
         return admin;
     }

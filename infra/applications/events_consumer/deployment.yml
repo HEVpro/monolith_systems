@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    component: events-consumer-deployment
+  name: events-consumer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: events-consumer-deployment
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        component: events-consumer-deployment
+    spec:
+      containers:
+        - name: events-consumer-container
+          env:
+            - name: MONGO_HOST
+              value: 'mongodb://events-consumer-db'
+            - name: KAFKA_TOPICS
+              value: 'User,Link,LinkMetric'
+            - name: KAFKA_SERVER
+              value: 'kafka:9092'
+          image: hacheev/events-consumer-service:latest
+          ports:
+            - containerPort: 8001
+              protocol: TCP
+          resources:
+            limits:
+              memory: 500Mi
+            requests:
+              cpu: 200m
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

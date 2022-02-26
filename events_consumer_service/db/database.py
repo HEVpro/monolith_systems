@@ -2,10 +2,10 @@ import json
 
 import pymongo
 
-import settings
+from src import settings
 
 client = pymongo.MongoClient(f'{settings.MONGO_HOST}:{settings.MONGO_PORT}/')
-db = client['events_log']
+db = client[settings.MONGO_DATABASE]
 logs_collection = db['logs_collection']
 
 

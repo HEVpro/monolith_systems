@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb-stateful
+  labels:
+    component: mongodb-stateful
+spec:
+  replicas: 1
+  serviceName: mongodb-stateful
+  volumeClaimTemplates:
+    - metadata:
+        name: mongodb-volume
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  selector:
+    matchLabels:
+      component: mongodb-stateful
+  template:
+    metadata:
+      labels:
+        component: mongodb-stateful
+    spec:
+      containers:
+        - name: mongodb-stateful
+          image: mongo:5.0.6
+          ports:
+            - containerPort: 27017
+              name: mongodb-port
+          env:
+            - name: MONGO_DATABASE
+              value: 'events_log'
+          volumeMounts:
+            - name: mongodb-volume
+              mountPath: /data/mongodb

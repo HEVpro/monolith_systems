@@ -7,7 +7,7 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - ${PWD}/mariadb_data:/var/lib/mysql
+      - ${PWD}/data/monolith/mariadb_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
       MYSQL_DATABASE: 'shrtdb'
@@ -59,15 +59,5 @@ services:
         interval: 1s
         timeout: 10s
         retries: 15
-  kafka-setup:
-      image: confluentinc/cp-kafka:6.1.1
-      hostname: kafka-setup
-      container_name: kafka-setup
-      command: "
-        bash -c 'cub kafka-ready -b kafka:19092 1 120 && \
-        kafka-topics --create --zookeeper zookeeper:2181 --partitions 4 --replication-factor 1 --topic user-registered'"
-      # add as many commands as we need
-      environment:
-        KAFKA_BROKER_ID: ignored
-        KAFKA_ZOOKEEPER_CONNECT: ignored
+
 

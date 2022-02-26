@@ -13,7 +13,8 @@ services:
       environment:
         MONGO_HOST: mongodb://events-consumer-db
         KAFKA_TOPICS: User,Link,LinkMetric
-        KAFKA_SERVER: kafka:19092
+        KAFKA_ADVERTISED_HOST_NAME: kafka
+        KAFKA_ADVERTISED_PORT: 19092
   events-consumer-db:
       image: mongo
       container_name: events-consumer-db

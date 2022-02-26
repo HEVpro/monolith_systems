@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+spec:
+  selector:
+    component: mongodb-stateful
+  ports:
+    - port: 27017
+  type: ClusterIP

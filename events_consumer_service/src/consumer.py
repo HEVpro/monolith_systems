@@ -3,15 +3,19 @@ import json
 
 import settings
 from db import database
+from exceptions import ConsumerException
 
 consumer = KafkaConsumer(
     *settings.KAFKA_TOPICS.split(","),
-    bootstrap_servers=settings.KAFKA_SERVER,
+    bootstrap_servers=f'{settings.KAFKA_SERVER}:{settings.KAFKA_PORT}',
     group_id='reporting-consumer',
     # to deserialize kafka.producer.object into dict
     value_deserializer=lambda m: json.loads(m.decode('utf-8')),
+    consumer_timeout_ms=3000
 )
 
-# TODO: MANAGE ERROR
 for inf in consumer:
-    database.save_log(inf)
+    try:
+        database.save_log(inf)
+    except:
+        raise ConsumerException()
