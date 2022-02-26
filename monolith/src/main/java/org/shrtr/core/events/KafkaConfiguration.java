@@ -13,9 +13,9 @@ import java.util.Properties;
 @Configuration
 public class KafkaConfiguration {
 
-    @Value("${kafka-host}")
+    @Value("${KAFKA-HOST}")
     private String host;
-    @Value("${kafka-port}")
+    @Value("${KAFKA-PORT}")
     private String port;
 
     @Bean
