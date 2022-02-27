@@ -28,7 +28,7 @@ spec:  # specifications of the deployment
               value: 'my-cluster-kafka-bootstrap.kafka.svc.cluster.local'
             - name: KAFKA-PORT
               value: '9092'
-          image: hacheev/monolith_systems_monolith:latest
+          image: hacheev/monolith_systems_monolith:7dbeb2fdfce39e59147f1bee53123be7e75ab66d
           ports:
             - containerPort: 8080
               protocol: TCP

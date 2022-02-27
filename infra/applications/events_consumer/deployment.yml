@@ -23,14 +23,18 @@ spec:
         - name: events-consumer-container
           env:
             - name: MONGO_HOST
-              value: 'mongodb://events-consumer-db'
+              value: 'mongodb-service'
+            - name: MONGO_PORT
+              value: '27017'
+            - name: MONGO_DATABASE
+              value: 'events_log'
             - name: KAFKA_TOPICS
               value: 'User,Link,LinkMetric'
-            - name: KAFKA_SERVER
+            - name: KAFKA_ADVERTISED_HOST_NAME
               value: 'my-cluster-kafka-bootstrap.kafka.svc.cluster.local'
-            - name: KAFKA_PORT
+            - name: KAFKA_ADVERTISED_PORT
               value: '9092'
-          image: hacheev/events-consumer-service:latest
+          image: hacheev/events-consumer-service:7dbeb2fdfce39e59147f1bee53123be7e75ab66d
           resources:
             limits:
               memory: 500Mi

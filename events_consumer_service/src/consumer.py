@@ -5,9 +5,6 @@ import settings
 from db import database
 from exceptions import ConsumerException
 
-print(f'{settings.KAFKA_SERVER}:{settings.KAFKA_PORT}')
-print(*settings.KAFKA_TOPICS.split(","))
-
 consumer = KafkaConsumer(
     *settings.KAFKA_TOPICS.split(","),
     bootstrap_servers=f'{settings.KAFKA_SERVER}:{settings.KAFKA_PORT}',

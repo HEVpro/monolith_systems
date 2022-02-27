@@ -30,9 +30,6 @@ spec:
           ports:
             - containerPort: 27017
               name: mongodb-port
-          env:
-            - name: MONGO_DATABASE
-              value: 'events_log'
           volumeMounts:
             - name: mongodb-volume
               mountPath: /data/mongodb

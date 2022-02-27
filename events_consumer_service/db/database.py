@@ -4,7 +4,9 @@ import pymongo
 
 from src import settings
 
-client = pymongo.MongoClient(f'{settings.MONGO_HOST}:{settings.MONGO_PORT}/')
+print(f'mongodb://{settings.MONGO_HOST}:{settings.MONGO_PORT}/')
+
+client = pymongo.MongoClient(f'mongodb://{settings.MONGO_HOST}:{settings.MONGO_PORT}/')
 db = client[settings.MONGO_DATABASE]
 logs_collection = db['logs_collection']
 
