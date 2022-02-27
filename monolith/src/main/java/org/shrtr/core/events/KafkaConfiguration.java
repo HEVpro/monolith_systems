@@ -32,7 +32,7 @@ public class KafkaConfiguration {
     public Producer<String, String> kafkaProducer() {
 
         Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
+        props.put("bootstrap.servers", host + ":" + port);
         props.put("acks", "all");
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");

@@ -25,7 +25,7 @@ spec:  # specifications of the deployment
             - name: SPRING_DATASOURCE_URL
               value: 'jdbc:mariadb://mariadb-service.default.svc.cluster.local:3306/shrtdb'
             - name: KAFKA-HOST
-              value: 'kafka-service'
+              value: 'my-cluster-kafka-bootstrap.kafka.svc.cluster.local'
             - name: KAFKA-PORT
               value: '9092'
           image: hacheev/monolith_systems_monolith:latest

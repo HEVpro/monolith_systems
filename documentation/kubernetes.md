@@ -104,3 +104,17 @@ To create an app:
                   port:
                     number: 8080  #port of the ingress
    ```
+5. Kubernetes commands
+   ```yaml
+    # Apply configuration  
+    kubectl apply -f kafka (directory or file)
+    # Get deployments  
+    kubectl get deployments
+    # Restart deployments
+    kubectl rollout restart deployment <deployment-name>
+    # Get pods  
+    kubectl get pods
+    # Get pod logs 
+    kubectl logs <pod name>
+   kubectl delete deployment kafka-deployment
+   ```
