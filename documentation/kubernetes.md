@@ -116,5 +116,22 @@ To create an app:
     kubectl get pods
     # Get pod logs 
     kubectl logs <pod name>
+    # Delete deployment
+    kubectl delete deployment kafka-deployment
+    # Tunnel to verify db
+    kubectl port-forward <pod_name> 27017:27017 (host_port:pod_port)
+   ```
+5. Kubernetes commands
+   ```yaml
+    # Apply configuration  
+    kubectl apply -f kafka (directory or file)
+    # Get deployments  
+    kubectl get deployments
+    # Restart deployments
+    kubectl rollout restart deployment <deployment-name>
+    # Get pods  
+    kubectl get pods
+    # Get pod logs 
+    kubectl logs <pod name>
    kubectl delete deployment kafka-deployment
    ```

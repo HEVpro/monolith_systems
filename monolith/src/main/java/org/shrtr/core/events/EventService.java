@@ -58,6 +58,7 @@ public class EventService {
             Map<String, String> body = new HashMap<>();
             body.put("entity", objectMapper.writeValueAsString(entity));
             body.put("operation", operation);
+            body.put("created", String.valueOf(System.currentTimeMillis()));
             ProducerRecord<String, String> event = new ProducerRecord<>(
                     entity.getClass().getSimpleName(),
                     objectMapper.writeValueAsString(body)// parse json

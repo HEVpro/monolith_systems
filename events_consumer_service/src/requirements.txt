@@ -1,4 +1,9 @@
 kafka-python==2.0.2
 pymongo==4.0.1
 pip==22.0.3
+scylla-driver==3.25.1
+elastic-transport==7.16
+elasticsearch==7.16
+requests==2.25.1
+
 

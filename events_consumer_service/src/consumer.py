@@ -2,8 +2,9 @@ from kafka import KafkaConsumer
 import json
 
 import settings
-from db import database
-from exceptions import ConsumerException
+from pip._vendor.requests import ReadTimeout
+from src import service
+
 
 consumer = KafkaConsumer(
     *settings.KAFKA_TOPICS.split(","),
@@ -14,6 +15,7 @@ consumer = KafkaConsumer(
 )
 for inf in consumer:
     try:
-        database.save_log(inf)
-    except:
-        raise ConsumerException()
+        service.events_service_manager(inf.topic, inf.value)
+        # database.save_log(inf)
+    except ReadTimeout:
+        print("Query timed out:")
